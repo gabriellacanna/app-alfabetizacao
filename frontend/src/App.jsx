@@ -1,10 +1,8 @@
-// src/App.jsx
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 import Login from './components/Login'
 import Register from './components/Register'
 import Game from './components/Game'
-import { AuthProvider, useAuth } from './contexts/AuthContext'
 import Navbar from './components/Navbar'
 
 function PrivateRoute({ children }) {
