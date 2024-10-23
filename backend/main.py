@@ -191,13 +191,13 @@ async def listar_atividades(nivel: int = 1):
             detail=f"Erro ao buscar atividades: {str(e)}"
         )
 
-@app.post("/inicializar-dados", tags=["Atividades"])
-@app.get("/inicializar-dados", tags=["Atividades"])
+@app.post("/inicializar-dados")
+@app.get("/inicializar-dados")
 async def inicializar_dados():
     try:
-        # Primeiro, vamos limpar os dados existentes
+        # Limpa dados existentes
         db.atividades.delete_many({})
-
+        
         atividades_exemplo = [
             # Nível 1 - Vogais
             {
@@ -212,7 +212,117 @@ async def inicializar_dados():
                 "dica": "Como em ELEFANTE",
                 "nivel": 1,
             },
-            # Adicione mais atividades aqui
+            {
+                "tipo": "letra",
+                "conteudo": "I",
+                "dica": "Como em ÍNDIO",
+                "nivel": 1,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "O",
+                "dica": "Como em OVO",
+                "nivel": 1,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "U",
+                "dica": "Como em UVA",
+                "nivel": 1,
+            },
+            # Nível 2 - Consoantes Simples
+            {
+                "tipo": "letra",
+                "conteudo": "B",
+                "dica": "Como em BOLA",
+                "nivel": 2,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "C",
+                "dica": "Como em CASA",
+                "nivel": 2,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "D",
+                "dica": "Como em DADO",
+                "nivel": 2,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "F",
+                "dica": "Como em FADA",
+                "nivel": 2,
+            },
+            {
+                "tipo": "letra",
+                "conteudo": "G",
+                "dica": "Como em GATO",
+                "nivel": 2,
+            },
+            # Nível 3 - Sílabas Simples
+            {
+                "tipo": "silaba",
+                "conteudo": "BA",
+                "dica": "Como em BALA",
+                "nivel": 3,
+            },
+            {
+                "tipo": "silaba",
+                "conteudo": "BE",
+                "dica": "Como em BEBÊ",
+                "nivel": 3,
+            },
+            {
+                "tipo": "silaba",
+                "conteudo": "BI",
+                "dica": "Como em BICO",
+                "nivel": 3,
+            },
+            {
+                "tipo": "silaba",
+                "conteudo": "BO",
+                "dica": "Como em BOLA",
+                "nivel": 3,
+            },
+            {
+                "tipo": "silaba",
+                "conteudo": "BU",
+                "dica": "Como em BURRO",
+                "nivel": 3,
+            },
+            # Nível 4 - Palavras Simples
+            {
+                "tipo": "palavra",
+                "conteudo": "BOLA",
+                "dica": "Objeto redondo que quica",
+                "nivel": 4,
+            },
+            {
+                "tipo": "palavra",
+                "conteudo": "CASA",
+                "dica": "Lugar onde moramos",
+                "nivel": 4,
+            },
+            {
+                "tipo": "palavra",
+                "conteudo": "DADO",
+                "dica": "Objeto com números para jogos",
+                "nivel": 4,
+            },
+            {
+                "tipo": "palavra",
+                "conteudo": "FADA",
+                "dica": "Ser mágico com varinha",
+                "nivel": 4,
+            },
+            {
+                "tipo": "palavra",
+                "conteudo": "GATO",
+                "dica": "Animal que faz miau",
+                "nivel": 4,
+            }
         ]
 
         resultado = db.atividades.insert_many(atividades_exemplo)
