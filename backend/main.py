@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
 from pymongo import MongoClient
 from pydantic import BaseModel, EmailStr
 from typing import Optional, Dict, Any
@@ -12,56 +13,77 @@ from datetime import datetime, timedelta
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(
+    title="API de Alfabetização",
+    description="API para aplicativo de alfabetização com sistema de autenticação",
+    version="1.0.0",
+)
 
-# Configurações JWT
-SECRET_KEY = os.getenv("SECRET_KEY", "sua-chave-secreta-aqui")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 horas
+# [Suas configurações anteriores de CORS e MongoDB permanecem as mesmas]
 
-# Configuração CORS e MongoDB (mantido como estava)
-# ... [seu código anterior de CORS e MongoDB]
+# Rotas
+@app.get("/", tags=["Root"])
+async def read_root():
+    """
+    Rota raiz que retorna informações básicas sobre a API
+    """
+    return {
+        "message": "Bem-vindo à API de Alfabetização",
+        "docs": "/docs",
+        "endpoints": {
+            "autenticação": ["/register", "/token"],
+            "atividades": ["/atividades", "/inicializar-dados"],
+            "usuário": ["/user/progress"]
+        }
+    }
 
-# Modelos
-class UserCreate(BaseModel):
-    username: str
-    email: EmailStr
-    password: str
-
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-# Funções auxiliares
-def create_access_token(data: dict):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+@app.get("/health", tags=["Health Check"])
+async def health_check():
+    """
+    Verifica a saúde da API e a conexão com o banco de dados
+    """
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            raise HTTPException(status_code=401)
-    except JWTError:
-        raise HTTPException(status_code=401)
-    user = db.users.find_one({"email": email})
-    if user is None:
-        raise HTTPException(status_code=401)
-    return user
+        # Teste a conexão com o banco
+        db.command('ping')
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={
+                "status": "unhealthy",
+                "database": "disconnected",
+                "error": str(e),
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        )
 
-# Rotas de autenticação
-@app.post("/register")
+@app.get("/atividades/", tags=["Atividades"])
+async def listar_atividades(nivel: int = 1):
+    """
+    Lista todas as atividades de um determinado nível
+    """
+    try:
+        atividades = list(db.atividades.find({"nivel": nivel}, {"_id": 0}))
+        return {
+            "nivel": nivel,
+            "total": len(atividades),
+            "atividades": atividades
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro ao buscar atividades: {str(e)}"
+        )
+
+@app.post("/register", tags=["Autenticação"])
 async def register(user: UserCreate):
+    """
+    Registra um novo usuário
+    """
     if db.users.find_one({"email": user.email}):
         raise HTTPException(status_code=400, detail="Email já registrado")
     
@@ -74,42 +96,28 @@ async def register(user: UserCreate):
         "progress": []
     }
     
-    result = db.users.insert_one(user_data)
-    return {
-        "message": "Usuário criado com sucesso",
-        "username": user.username
-    }
+    try:
+        result = db.users.insert_one(user_data)
+        return {
+            "message": "Usuário criado com sucesso",
+            "username": user.username,
+            "email": user.email
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro ao criar usuário: {str(e)}"
+        )
 
-@app.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = db.users.find_one({"email": form_data.username})
-    if not user or not bcrypt.checkpw(form_data.password.encode('utf-8'), user["password"]):
-        raise HTTPException(status_code=401, detail="Email ou senha incorretos")
-    
-    access_token = create_access_token({"sub": user["email"]})
-    return {"access_token": access_token, "token_type": "bearer"}
+# [Mantenha suas outras rotas como estavam]
 
-# Rotas protegidas
-@app.get("/user/progress")
-async def get_progress(current_user: dict = Depends(get_current_user)):
-    return {
-        "username": current_user["username"],
-        "progress": current_user.get("progress", [])
-    }
-
-@app.post("/user/progress")
-async def update_progress(
-    progress: dict,
-    current_user: dict = Depends(get_current_user)
-):
-    db.users.update_one(
-        {"email": current_user["email"]},
-        {"$push": {"progress": {
-            "nivel": progress["nivel"],
-            "pontuacao": progress["pontuacao"],
-            "data": datetime.utcnow()
-        }}}
+# Manipulador de erros global
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": str(exc),
+            "path": request.url.path
+        }
     )
-    return {"message": "Progresso atualizado"}
-
-# [Manter suas rotas anteriores de atividades]
