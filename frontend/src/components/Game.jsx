@@ -63,10 +63,10 @@ function Game() {
         if (atividadeCorreta.conteudo.startsWith('O que é')) {
           const respostasValidas = {
             'O que é uma maçã?': ['MACA', 'MAÇA', 'MAÇÃ', 'FRUTA'],
-            'O que é uma bola?': ['BOLA', 'BOLINHA', 'BRINQUEDO'],
+            'O que é uma bola?': ['BOLA', 'BOLINHA', 'BRINQUEDO', "UM CIRCULO", "CIRCULO", "REDONDO", "FORMA"],
             'O que é um cachorro?': ['CAO', 'CÃO', 'CACHORRO', 'ANIMAL'],
-            'O que é uma escola?': ['ESCOLA', 'COLEGIO', 'COLÉGIO'],
-            'O que é um livro?': ['LIVRO', 'LEITURA', 'HISTORIA', 'HISTÓRIA']
+            'O que é uma escola?': ['ESCOLA', 'COLEGIO', 'COLÉGIO', "LUGAR PARA APRENDER", "LUGAR PARA ENSINAR", "É UM LUGAR", "LUGAR"],
+            'O que é um livro?': ['LIVRO', 'LEITURA', 'HISTORIA', 'HISTÓRIA', "ALGO PARA LER", "INSTRUMENTO DE LEITURA", "CADERNO COM FOLHAS", "FOLHAS", "LER", ]
           };
           respostaCorreta = respostasValidas[atividadeCorreta.conteudo]?.includes(resposta.toUpperCase());
         } else if (atividadeCorreta.conteudo === 'O gato está no telhado.') {
@@ -77,7 +77,7 @@ function Game() {
 
       case 'silaba':
         const silabasParaPalavras = {
-          'MA e SÃO': 'MANSÃO',
+          'MAN e SÃO': 'MANSÃO',
           'CA e SA': 'CASA',
           'BA e LA': 'BALA',
           'PA e RA': 'PARA'
@@ -135,7 +135,7 @@ function Game() {
            ];
             respostaCorreta = animaisValidos.includes(respostaLimpa);
           } else if (atividadeCorreta.conteudo === 'Hoje eu fui ao ___.') {
-            const lugaresValidos = ['PARQUE', 'SHOPPING', 'MERCADO', 'CINEMA', 'ZOOLOGICO', 'ZOOLÓGICO', 'ESCOLA', 'PARQUINHO', 'QUADRA DE FUTEBOL', 'MEU QUARTO', 'QUARTO', 'BANHEIRO', 'COZINHA', 'CARRO'];
+            const lugaresValidos = ['PARQUE', 'SHOPPING', 'MERCADO', 'CINEMA', 'ZOOLOGICO', 'ZOOLÓGICO', 'ESCOLA', 'PARQUINHO', 'QUADRA DE FUTEBOL', 'MEU QUARTO', 'QUARTO', 'BANHEIRO', 'COZINHA', 'CARRO', 'HOTEL'];
             respostaCorreta = lugaresValidos.includes(respostaLimpa);
           }
         }
