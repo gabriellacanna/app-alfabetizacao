@@ -35,9 +35,9 @@ const LevelComplete = ({ nivel, username, onContinue, isLastLevel }) => {
       target="_blank"
       rel="noopener noreferrer"
       className="block p-4 border rounded-lg hover:bg-purple-50 transition"
+    >
       <h3 className="font-bold text-purple-600">{recurso.nome}</h3>
       <p className="text-sm text-gray-600">{recurso.descricao}</p>
-    >
     </a>
   );
 
