@@ -98,8 +98,8 @@ async def inicializar_dados_padrao():
     try:
         print("Inicializando dados padrão...")
         
-        # Clear the existing atividades collection
-        db.atividades.delete_many({})
+            result = db.atividades.delete_many({})
+            print(f"✅ {result.deleted_count} atividades antigas removidas.")
 
         atividades_exemplo = [
             # Nível 1 - Vogais
