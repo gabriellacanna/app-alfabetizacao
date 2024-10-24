@@ -31,6 +31,7 @@ function Game() {
       if (!response.ok) throw new Error('Erro ao carregar atividades')
       const data = await response.json()
       setAtividades(data.atividades || [])
+      setAtividadeAtual(0) // Reseta a atividade atual ao carregar atividades
     } catch (error) {
       console.error('Erro:', error)
     } finally {
@@ -106,7 +107,7 @@ function Game() {
               <button
                 onClick={() => {
                   setNivelAtual(prev => prev + 1)
-                  setAtividadeAtual(0) // Reseta a atividade atual para 0
+                  setAtividadeAtual(0) // Reseta a atividade atual para 0 ao avançar para o próximo nível
                 }}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ml-2"
               >
