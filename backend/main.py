@@ -96,138 +96,43 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 async def inicializar_dados_padrao():
     try:
-        print("Inicializando dados padrão...")
-        
+        print("🚀 Inicializando dados padrão...")
+
+        # Verifica e remove atividades existentes
         result = db.atividades.delete_many({})
         print(f"✅ {result.deleted_count} atividades antigas removidas.")
 
         atividades_exemplo = [
-            # Nível 1 - Vogais
-            {
-                "tipo": "letra",
-                "conteudo": "A",
-                "dica": "Como em ABELHA",
-                "nivel": 1,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "E",
-                "dica": "Como em ELEFANTE",
-                "nivel": 1,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "I",
-                "dica": "Como em ÍNDIO",
-                "nivel": 1,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "O",
-                "dica": "Como em OVO",
-                "nivel": 1,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "U",
-                "dica": "Como em UVA",
-                "nivel": 1,
-            },
-            # Nível 2 - Consoantes Simples
-            {
-                "tipo": "letra",
-                "conteudo": "B",
-                "dica": "Como em BOLA",
-                "nivel": 2,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "C",
-                "dica": "Como em CASA",
-                "nivel": 2,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "D",
-                "dica": "Como em DADO",
-                "nivel": 2,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "F",
-                "dica": "Como em FADA",
-                "nivel": 2,
-            },
-            {
-                "tipo": "letra",
-                "conteudo": "G",
-                "dica": "Como em GATO",
-                "nivel": 2,
-            },
-            # Nível 3 - Sílabas Simples
-            {
-                "tipo": "silaba",
-                "conteudo": "BA",
-                "dica": "Como em BALA",
-                "nivel": 3,
-            },
-            {
-                "tipo": "silaba",
-                "conteudo": "BE",
-                "dica": "Como em BEBÊ",
-                "nivel": 3,
-            },
-            {
-                "tipo": "silaba",
-                "conteudo": "BI",
-                "dica": "Como em BICO",
-                "nivel": 3,
-            },
-            {
-                "tipo": "silaba",
-                "conteudo": "BO",
-                "dica": "Como em BOLA",
-                "nivel": 3,
-            },
-            {
-                "tipo": "silaba",
-                "conteudo": "BU",
-                "dica": "Como em BURRO",
-                "nivel": 3,
-            },
-            # Nível 4 - Palavras Simples
-            {
-                "tipo": "palavra",
-                "conteudo": "BOLA",
-                "dica": "Objeto redondo que quica",
-                "nivel": 4,
-            },
-            {
-                "tipo": "palavra",
-                "conteudo": "CASA",
-                "dica": "Lugar onde moramos",
-                "nivel": 4,
-            },
-            {
-                "tipo": "palavra",
-                "conteudo": "DADO",
-                "dica": "Objeto com números para jogos",
-                "nivel": 4,
-            },
-            {
-                "tipo": "palavra",
-                "conteudo": "FADA",
-                "dica": "Ser mágico com varinha",
-                "nivel": 4,
-            },
-            {
-                "tipo": "palavra",
-                "conteudo": "GATO",
-                "dica": "Animal que faz miau",
-                "nivel": 4,
-            }
+            # Nível 1 - Reconhecimento de Letras e Sons
+            {"tipo": "letra", "conteudo": "A", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"tipo": "letra", "conteudo": "B", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"tipo": "letra", "conteudo": "C", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"tipo": "letra", "conteudo": "D", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"tipo": "letra", "conteudo": "E", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+
+            # Nível 2 - Formação de Palavras e Vocabulário
+            {"tipo": "letra", "conteudo": "C _ S _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
+            {"tipo": "letra", "conteudo": "P _ R _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
+            {"tipo": "palavra", "conteudo": "O que é uma maçã?", "dica": "É uma fruta vermelha ou verde, doce e saudável.", "nivel": 2},
+            {"tipo": "palavra", "conteudo": "O que é uma bola?", "dica": "É redonda e usamos para jogar.", "nivel": 2},
+            {"tipo": "palavra", "conteudo": "O que é um cachorro?", "dica": "É um animal que ladra.", "nivel": 2},
+
+            # Nível 3 - Atividades de Sílabas e Compreensão
+            {"tipo": "silaba", "conteudo": "MA e SÃO", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"tipo": "silaba", "conteudo": "CA e SA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"tipo": "silaba", "conteudo": "BA e LA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"tipo": "silaba", "conteudo": "PA e RA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"tipo": "palavra", "conteudo": "O gato está no telhado.", "dica": "Onde está o gato?", "nivel": 3},
+
+            # Nível 4 - Atividades de Escrita Criativa e Jogos
+            {"tipo": "frase", "conteudo": "Eu vejo um ___.", "dica": "Complete a frase com um animal que você gosta.", "nivel": 4},
+            {"tipo": "frase", "conteudo": "Hoje eu fui ao ___.", "dica": "Complete a frase com um lugar que você visitou.", "nivel": 4},
+            {"tipo": "palavra", "conteudo": "O que é uma escola?", "dica": "É onde aprendemos.", "nivel": 4},
+            {"tipo": "palavra", "conteudo": "O que é um livro?", "dica": "É onde encontramos histórias.", "nivel": 4},
+            {"tipo": "letra", "conteudo": "A, B, C, D, E...", "dica": "Complete sua cartela com essas letras.", "nivel": 4},
         ]
 
+        # Inserindo novas atividades
         db.atividades.insert_many(atividades_exemplo)
         print(f"✅ {len(atividades_exemplo)} atividades inicializadas com sucesso!")
 
