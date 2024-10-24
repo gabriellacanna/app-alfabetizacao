@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import LevelComplete from './LevelComplete';
+import Ranking from './Ranking';
 
 function Game() {
   const [atividades, setAtividades] = useState([]);
@@ -13,6 +14,7 @@ function Game() {
   const [showLevelComplete, setShowLevelComplete] = useState(false);
   const MAX_LEVEL = 4; // Número total de níveis
   const { user } = useAuth();
+  const [showRanking, setShowRanking] = useState(false);
 
   useEffect(() => {
     carregarAtividades();
@@ -145,9 +147,13 @@ function Game() {
         respostaCorreta = resposta.toUpperCase() === atividadeCorreta.conteudo;
     }
 
+
+
     if (respostaCorreta) {
       setFeedback('Muito bem!');
-      setPontuacao(pontuacao + 10);
+      const novaPontuacao = pontuacao + 10;
+      setPontuacao(novaPontuacao);
+      atualizarPontuacaoTotal(novaPontuacao);
       setTimeout(() => {
         if (atividadeAtual < atividades.length - 1) {
           setAtividadeAtual((prev) => prev + 1);
@@ -165,6 +171,21 @@ function Game() {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       verificarResposta();
+    }
+  };
+
+  const atualizarPontuacaoTotal = async (novaPontuacao) => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/user/pontuacao`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${user.token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pontuacao: novaPontuacao })
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar pontuação:', error);
     }
   };
 
@@ -199,14 +220,24 @@ function Game() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
+      <div className="max-w-md mx-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-3xl font-bold text-purple-600">Aprendendo ABC</h1>
+          <button
+            onClick={() => setShowRanking(true)}
+            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+          >
+            🏆 Ranking
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-purple-600 mb-2">Aprendendo ABC</h1>
           <div className="text-sm text-gray-600">
             Nível: {nivelAtual} | Pontos: {pontuacao}
           </div>
         </div>
-        
+        </div>
         {atividades.length === 0 ? (
           <div className="text-center">
             <h3 className="text-xl text-gray-800 mb-4">Parabéns!</h3>
@@ -282,6 +313,16 @@ function Game() {
         )}
       </div>
 
+
+
+      {showRanking && (
+        <Ranking
+          isOpen={showRanking}
+          onClose={() => setShowRanking(false)}
+          pontuacaoAtual={pontuacao}
+        />
+      )}
+      
       {showLevelComplete && (
         <LevelComplete
           nivel={nivelAtual}
