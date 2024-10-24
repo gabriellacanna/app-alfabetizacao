@@ -98,43 +98,41 @@ async def inicializar_dados_padrao():
     try:
         print("🚀 Inicializando dados padrão...")
 
-        # Verifica e remove atividades existentes
-        result = db.atividades.delete_many({})
-        print(f"✅ {result.deleted_count} atividades antigas removidas.")
-
         atividades_exemplo = [
-            # Nível 1 - Reconhecimento de Letras e Sons
-            {"tipo": "letra", "conteudo": "A", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
-            {"tipo": "letra", "conteudo": "B", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
-            {"tipo": "letra", "conteudo": "C", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
-            {"tipo": "letra", "conteudo": "D", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
-            {"tipo": "letra", "conteudo": "E", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"_id": 1, "tipo": "letra", "conteudo": "A", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"_id": 2, "tipo": "letra", "conteudo": "B", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"_id": 3, "tipo": "letra", "conteudo": "C", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"_id": 4, "tipo": "letra", "conteudo": "D", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
+            {"_id": 5, "tipo": "letra", "conteudo": "E", "dica": "Qual é o som que essa letra faz?", "nivel": 1},
 
-            # Nível 2 - Formação de Palavras e Vocabulário
-            {"tipo": "letra", "conteudo": "C _ S _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
-            {"tipo": "letra", "conteudo": "P _ R _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
-            {"tipo": "palavra", "conteudo": "O que é uma maçã?", "dica": "É uma fruta vermelha ou verde, doce e saudável.", "nivel": 2},
-            {"tipo": "palavra", "conteudo": "O que é uma bola?", "dica": "É redonda e usamos para jogar.", "nivel": 2},
-            {"tipo": "palavra", "conteudo": "O que é um cachorro?", "dica": "É um animal que ladra.", "nivel": 2},
+            {"_id": 6, "tipo": "letra", "conteudo": "C _ S _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
+            {"_id": 7, "tipo": "letra", "conteudo": "P _ R _", "dica": "Qual palavra pode ser formada aqui?", "nivel": 2},
+            {"_id": 8, "tipo": "palavra", "conteudo": "O que é uma maçã?", "dica": "É uma fruta vermelha ou verde, doce e saudável.", "nivel": 2},
+            {"_id": 9, "tipo": "palavra", "conteudo": "O que é uma bola?", "dica": "É redonda e usamos para jogar.", "nivel": 2},
+            {"_id": 10, "tipo": "palavra", "conteudo": "O que é um cachorro?", "dica": "É um animal que ladra.", "nivel": 2},
 
-            # Nível 3 - Atividades de Sílabas e Compreensão
-            {"tipo": "silaba", "conteudo": "MA e SÃO", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
-            {"tipo": "silaba", "conteudo": "CA e SA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
-            {"tipo": "silaba", "conteudo": "BA e LA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
-            {"tipo": "silaba", "conteudo": "PA e RA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
-            {"tipo": "palavra", "conteudo": "O gato está no telhado.", "dica": "Onde está o gato?", "nivel": 3},
+            {"_id": 11, "tipo": "silaba", "conteudo": "MA e SÃO", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"_id": 12, "tipo": "silaba", "conteudo": "CA e SA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"_id": 13, "tipo": "silaba", "conteudo": "BA e LA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"_id": 14, "tipo": "silaba", "conteudo": "PA e RA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"_id": 15, "tipo": "palavra", "conteudo": "O gato está no telhado.", "dica": "Onde está o gato?", "nivel": 3},
 
-            # Nível 4 - Atividades de Escrita Criativa e Jogos
-            {"tipo": "frase", "conteudo": "Eu vejo um ___.", "dica": "Complete a frase com um animal que você gosta.", "nivel": 4},
-            {"tipo": "frase", "conteudo": "Hoje eu fui ao ___.", "dica": "Complete a frase com um lugar que você visitou.", "nivel": 4},
-            {"tipo": "palavra", "conteudo": "O que é uma escola?", "dica": "É onde aprendemos.", "nivel": 4},
-            {"tipo": "palavra", "conteudo": "O que é um livro?", "dica": "É onde encontramos histórias.", "nivel": 4},
-            {"tipo": "letra", "conteudo": "A, B, C, D, E...", "dica": "Complete sua cartela com essas letras.", "nivel": 4},
+            {"_id": 16, "tipo": "frase", "conteudo": "Eu vejo um ___.", "dica": "Complete a frase com um animal que você gosta.", "nivel": 4},
+            {"_id": 17, "tipo": "frase", "conteudo": "Hoje eu fui ao ___.", "dica": "Complete a frase com um lugar que você visitou.", "nivel": 4},
+            {"_id": 18, "tipo": "palavra", "conteudo": "O que é uma escola?", "dica": "É onde aprendemos.", "nivel": 4},
+            {"_id": 19, "tipo": "palavra", "conteudo": "O que é um livro?", "dica": "É onde encontramos histórias.", "nivel": 4},
+            {"_id": 20, "tipo": "letra", "conteudo": "A, B, C, D, E...", "dica": "Complete sua cartela com essas letras.", "nivel": 4},
         ]
 
-        # Inserindo novas atividades
-        db.atividades.insert_many(atividades_exemplo)
-        print(f"✅ {len(atividades_exemplo)} atividades inicializadas com sucesso!")
+        for atividade in atividades_exemplo:
+            # Atualiza ou insere a atividade
+            db.atividades.update_one(
+                {"_id": atividade["_id"]},  # Filtra pela chave única
+                {"$set": atividade},        # Atualiza ou insere
+                upsert=True                 # Cria um novo documento se não existir
+            )
+
+        print(f"✅ {len(atividades_exemplo)} atividades atualizadas com sucesso!")
 
     except Exception as e:
         print(f"❌ Erro ao inicializar dados: {str(e)}")
