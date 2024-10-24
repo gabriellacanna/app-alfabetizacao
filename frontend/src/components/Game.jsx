@@ -1,6 +1,7 @@
 // src/components/Game.jsx
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import LevelComplete from './LevelComplete'
 
 function Game() {
  const [atividades, setAtividades] = useState([])
@@ -10,6 +11,8 @@ function Game() {
  const [feedback, setFeedback] = useState('')
  const [pontuacao, setPontuacao] = useState(0)
  const [carregando, setCarregando] = useState(true)
+ const [showLevelComplete, setShowLevelComplete] = useState(false)
+ const MAX_LEVEL = 4 // Número total de níveis
  const { user } = useAuth()
 
  useEffect(() => {
@@ -45,8 +48,7 @@ function Game() {
        if (atividadeAtual < atividades.length - 1) {
          setAtividadeAtual(prev => prev + 1)
        } else {
-         setNivelAtual(prev => prev + 1)
-         setAtividadeAtual(0)
+         setShowLevelComplete(true)
        }
        setResposta('')
        setFeedback('')
@@ -148,6 +150,23 @@ function Game() {
          </>
        )}
      </div>
+
+     {showLevelComplete && (
+       <LevelComplete
+         nivel={nivelAtual}
+         username={user.username}
+         isLastLevel={nivelAtual === MAX_LEVEL}
+         onContinue={() => {
+           if (nivelAtual === MAX_LEVEL) {
+             setNivelAtual(1)
+           } else {
+             setNivelAtual(prev => prev + 1)
+           }
+           setAtividadeAtual(0)
+           setShowLevelComplete(false)
+         }}
+       />
+     )}
    </div>
  )
 }
