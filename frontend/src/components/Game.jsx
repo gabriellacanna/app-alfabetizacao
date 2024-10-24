@@ -106,7 +106,7 @@ function Game() {
               <button
                 onClick={() => {
                   setNivelAtual(prev => prev + 1)
-                  setAtividadeAtual(0)
+                  setAtividadeAtual(0) // Reseta a atividade atual para 0
                 }}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ml-2"
               >
@@ -174,7 +174,7 @@ function Game() {
             } else {
               setNivelAtual(prev => prev + 1)
             }
-            setAtividadeAtual(0)
+            setAtividadeAtual(0) // Reseta a atividade atual para 0
             setShowLevelComplete(false)
           }}
         />
