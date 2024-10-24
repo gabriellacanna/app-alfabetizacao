@@ -10,7 +10,7 @@ function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="text-purple-600 font-bold text-xl">
-              ABC App
+              Alfabetizar com Amor
             </Link>
           </div>
           <div className="flex items-center">
