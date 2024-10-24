@@ -40,7 +40,66 @@ function Game() {
   const verificarResposta = () => {
     if (!atividades[atividadeAtual]) return;
     const atividadeCorreta = atividades[atividadeAtual];
-    if (resposta.toUpperCase() === atividadeCorreta.conteudo) {
+    let respostaCorreta = false;
+
+    switch (atividadeCorreta.tipo) {
+      case 'letra':
+        if (atividadeCorreta.conteudo.includes('_')) {
+          // Para completar palavras (ex: "C _ S _")
+          const palavrasValidas = {
+            'C _ S _': ['CASA'],
+            'P _ R _': ['PARA', 'PARE']
+          };
+          respostaCorreta = palavrasValidas[atividadeCorreta.conteudo]?.includes(resposta.toUpperCase());
+        } else if (atividadeCorreta.conteudo.includes(',')) {
+          // Para sequência de letras
+          respostaCorreta = resposta.toUpperCase() === 'F'; // Para "A, B, C, D, E..." aceita próxima letra
+        } else {
+          respostaCorreta = resposta.toUpperCase() === atividadeCorreta.conteudo;
+        }
+        break;
+
+      case 'palavra':
+        if (atividadeCorreta.conteudo.startsWith('O que é')) {
+          const respostasValidas = {
+            'O que é uma maçã?': ['MACA', 'MAÇA', 'MAÇÃ', 'FRUTA'],
+            'O que é uma bola?': ['BOLA', 'BOLINHA', 'BRINQUEDO'],
+            'O que é um cachorro?': ['CAO', 'CÃO', 'CACHORRO', 'ANIMAL'],
+            'O que é uma escola?': ['ESCOLA', 'COLEGIO', 'COLÉGIO'],
+            'O que é um livro?': ['LIVRO', 'LEITURA', 'HISTORIA', 'HISTÓRIA']
+          };
+          respostaCorreta = respostasValidas[atividadeCorreta.conteudo]?.includes(resposta.toUpperCase());
+        }
+        break;
+
+      case 'silaba':
+        const silabasParaPalavras = {
+          'MA e SÃO': 'MANSÃO',
+          'CA e SA': 'CASA',
+          'BA e LA': 'BALA',
+          'PA e RA': 'PARA'
+        };
+        respostaCorreta = resposta.toUpperCase() === silabasParaPalavras[atividadeCorreta.conteudo];
+        break;
+
+      case 'frase':
+        if (atividadeCorreta.conteudo.includes('___')) {
+          const respostaLimpa = resposta.trim().toUpperCase();
+          if (atividadeCorreta.conteudo === 'Eu vejo um ___.') {
+            const animaisValidos = ['GATO', 'CACHORRO', 'PASSARO', 'PÁSSARO', 'COELHO', 'PEIXE'];
+            respostaCorreta = animaisValidos.includes(respostaLimpa);
+          } else if (atividadeCorreta.conteudo === 'Hoje eu fui ao ___.') {
+            const lugaresValidos = ['PARQUE', 'SHOPPING', 'MERCADO', 'CINEMA', 'ZOOLOGICO', 'ZOOLÓGICO'];
+            respostaCorreta = lugaresValidos.includes(respostaLimpa);
+          }
+        }
+        break;
+
+      default:
+        respostaCorreta = resposta.toUpperCase() === atividadeCorreta.conteudo;
+    }
+
+    if (respostaCorreta) {
       setFeedback('Muito bem!');
       setPontuacao(pontuacao + 10);
       setTimeout(() => {
@@ -63,6 +122,27 @@ function Game() {
     }
   };
 
+  const renderAtividade = (atividade) => {
+    if (!atividade) return null;
+
+    let conteudoFormatado = atividade.conteudo;
+    let tamanhoFonte = 'text-6xl';
+
+    if (atividade.tipo === 'palavra' && atividade.conteudo.startsWith('O que é')) {
+      tamanhoFonte = 'text-3xl';
+    } else if (atividade.tipo === 'frase' || atividade.tipo === 'silaba') {
+      tamanhoFonte = 'text-3xl';
+    } else if (atividade.tipo === 'letra' && atividade.conteudo.includes(',')) {
+      tamanhoFonte = 'text-4xl';
+    }
+
+    return (
+      <div className={`font-bold text-gray-800 mb-4 ${tamanhoFonte}`}>
+        {conteudoFormatado}
+      </div>
+    );
+  };
+
   if (carregando) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-64px)]">
@@ -80,6 +160,7 @@ function Game() {
             Nível: {nivelAtual} | Pontos: {pontuacao}
           </div>
         </div>
+        
         {atividades.length === 0 ? (
           <div className="text-center">
             <h3 className="text-xl text-gray-800 mb-4">Parabéns!</h3>
@@ -101,8 +182,8 @@ function Game() {
               <button
                 onClick={() => {
                   setNivelAtual((prev) => prev + 1);
-                  setAtividadeAtual(0); // Reseta a atividade atual para 0 ao avançar para o próximo nível
-                  setShowLevelComplete(false); // Garante que o nível completo não fique aberto
+                  setAtividadeAtual(0);
+                  setShowLevelComplete(false);
                 }}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ml-2"
               >
@@ -113,15 +194,14 @@ function Game() {
         ) : (
           <>
             <div className="text-center mb-8">
-              <div className="text-6xl font-bold text-gray-800 mb-4">
-                {atividades[atividadeAtual]?.conteudo}
-              </div>
+              {renderAtividade(atividades[atividadeAtual])}
               {atividades[atividadeAtual]?.dica && (
                 <div className="text-sm text-gray-600">
                   Dica: {atividades[atividadeAtual].dica}
                 </div>
               )}
             </div>
+
             <div className="space-y-4">
               <input
                 type="text"
@@ -148,25 +228,27 @@ function Game() {
                 </div>
               )}
             </div>
+
             <div className="mt-8 text-center text-sm text-gray-600">
               Atividade {atividadeAtual + 1} de {atividades.length}
             </div>
           </>
         )}
       </div>
+
       {showLevelComplete && (
         <LevelComplete
           nivel={nivelAtual}
           username={user.username}
           isLastLevel={nivelAtual === MAX_LEVEL}
           onContinue={() => {
-            setAtividadeAtual(0); // Reseta a atividade atual para 0 ao continuar
+            setAtividadeAtual(0);
             if (nivelAtual === MAX_LEVEL) {
-              setNivelAtual(1); // Volta ao nível 1 se for o último nível
+              setNivelAtual(1);
             } else {
-              setNivelAtual((prev) => prev + 1); // Avança para o próximo nível
+              setNivelAtual((prev) => prev + 1);
             }
-            setShowLevelComplete(false); // Fecha o modal de nível completo
+            setShowLevelComplete(false);
           }}
         />
       )}
@@ -175,4 +257,3 @@ function Game() {
 }
 
 export default Game;
-
