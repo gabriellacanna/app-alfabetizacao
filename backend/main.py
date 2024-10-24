@@ -245,6 +245,49 @@ async def get_progress(current_user: dict = Depends(get_current_user)):
         "progress": current_user.get("progress", [])
     }
 
+@app.get("/ranking", tags=["Ranking"])
+async def get_ranking():
+    try:
+        # Busca todos os usuários e ordena por pontuação total
+        usuarios = list(db.users.find(
+            {},
+            {"_id": 0, "username": 1, "pontuacao_total": 1}
+        ).sort("pontuacao_total", -1).limit(10))  # -1 para ordem decrescente, top 10
+        
+        return {
+            "ranking": usuarios
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro ao buscar ranking: {str(e)}"
+        )
+
+@app.post("/user/pontuacao", tags=["Usuário"])
+async def update_total_score(
+    current_user: dict = Depends(get_current_user),
+    pontuacao: int = Body(..., embed=True)
+):
+    try:
+        db.users.update_one(
+            {"email": current_user["email"]},
+            {
+                "$set": {"pontuacao_total": pontuacao},
+                "$push": {
+                    "historico_pontuacao": {
+                        "pontuacao": pontuacao,
+                        "data": datetime.utcnow()
+                    }
+                }
+            }
+        )
+        return {"message": "Pontuação atualizada com sucesso"}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro ao atualizar pontuação: {str(e)}"
+        )
+
 @app.post("/user/progress", tags=["Usuário"])
 async def update_progress(
     progress: ProgressUpdate,
