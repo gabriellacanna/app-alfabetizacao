@@ -111,17 +111,17 @@ async def inicializar_dados_padrao():
             {"_id": 9, "tipo": "palavra", "conteudo": "O que é uma bola?", "dica": "É redonda e usamos para jogar.", "nivel": 2},
             {"_id": 10, "tipo": "palavra", "conteudo": "O que é um cachorro?", "dica": "É um animal que ladra.", "nivel": 2},
 
-            {"_id": 11, "tipo": "silaba", "conteudo": "MA e SÃO", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
+            {"_id": 11, "tipo": "silaba", "conteudo": "MAN e SÃO", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
             {"_id": 12, "tipo": "silaba", "conteudo": "CA e SA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
             {"_id": 13, "tipo": "silaba", "conteudo": "BA e LA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
             {"_id": 14, "tipo": "silaba", "conteudo": "PA e RA", "dica": "O que você forma ao juntar essas sílabas?", "nivel": 3},
             {"_id": 15, "tipo": "palavra", "conteudo": "O gato está no telhado.", "dica": "Onde está o gato?", "nivel": 3},
 
             {"_id": 16, "tipo": "frase", "conteudo": "Eu vejo um ___.", "dica": "Complete a frase com um animal que você gosta.", "nivel": 4},
-            {"_id": 17, "tipo": "frase", "conteudo": "Hoje eu fui ao ___.", "dica": "Complete a frase com um lugar que você visitou.", "nivel": 4},
-            {"_id": 18, "tipo": "palavra", "conteudo": "O que é uma escola?", "dica": "É onde aprendemos.", "nivel": 4},
-            {"_id": 19, "tipo": "palavra", "conteudo": "O que é um livro?", "dica": "É onde encontramos histórias.", "nivel": 4},
-            {"_id": 20, "tipo": "letra", "conteudo": "A, B, C, D, E...", "dica": "Complete sua cartela com essas letras.", "nivel": 4},
+            {"_id": 17, "tipo": "frase", "conteudo": "Hoje eu fui ao ___.", "dica": "Complete a frase com um lugar que você visita todo dia", "nivel": 4},
+            {"_id": 18, "tipo": "palavra", "conteudo": "O que é uma escola?", "dica": "É onde aprendemos, mas também pode ser um sinonimo.", "nivel": 4},
+            {"_id": 19, "tipo": "palavra", "conteudo": "O que é um livro?", "dica": "É onde encontramos histórias, onde lemos.", "nivel": 4},
+            {"_id": 20, "tipo": "letra", "conteudo": "A, B, C, D, E...", "dica": "Complete sua cartela com a ordem dessas letras.", "nivel": 4},
         ]
 
         for atividade in atividades_exemplo:
