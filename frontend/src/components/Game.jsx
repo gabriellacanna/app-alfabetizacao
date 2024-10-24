@@ -69,6 +69,9 @@ function Game() {
             'O que é um livro?': ['LIVRO', 'LEITURA', 'HISTORIA', 'HISTÓRIA']
           };
           respostaCorreta = respostasValidas[atividadeCorreta.conteudo]?.includes(resposta.toUpperCase());
+        } else if (atividadeCorreta.conteudo === 'O gato está no telhado.') {
+          const respostasValidas = ['TELHADO', 'ESTA NO TELHADO', 'ESTÁ NO TELHADO'];
+          respostaCorreta = respostasValidas.includes(resposta.toUpperCase());
         }
         break;
 
