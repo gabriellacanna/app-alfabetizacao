@@ -1,16 +1,16 @@
-// frontend/src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider, useAuth } from './contexts/AuthContext'
-import HomePage from './components/HomePage'
-import Login from './components/Login'
-import Register from './components/Register'
-import Game from './components/Game'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import HomePage from './components/HomePage';
+import Login from './components/Login';
+import Register from './components/Register';
+import Game from './components/Game';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function PrivateRoute({ children }) {
-  const { user } = useAuth()
-  return user ? children : <Navigate to="/login" />
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" />;
 }
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

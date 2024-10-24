@@ -1,10 +1,10 @@
-// frontend/src/components/Footer.jsx
+// src/components/Footer.jsx
 function Footer() {
   return (
     <footer className="bg-white shadow-up py-4 mt-auto">
       <div className="container mx-auto px-4 text-center text-gray-600">
         <p>
-          Desenvolvido com ❤️  por{' '}
+          Desenvolvido com ❤️ por{' '}
           
             href="https://github.com/gabriellacanna"
             target="_blank"
@@ -16,7 +16,7 @@ function Footer() {
         </p>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

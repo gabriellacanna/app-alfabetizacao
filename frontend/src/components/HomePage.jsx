@@ -1,5 +1,5 @@
-// frontend/src/components/HomePage.jsx
-import { Link } from 'react-router-dom'
+// src/components/HomePage.jsx
+import { Link } from 'react-router-dom';
 
 function HomePage() {
   return (
@@ -9,7 +9,7 @@ function HomePage() {
           Bem-vindo ao Alfabetizar com Amor
         </h1>
 
-        <div className="prose prose-purple mx-auto">
+        <div className="typography typography-purple mx-auto">
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
             <p className="text-yellow-700 font-medium">
               ⚠️ Atenção: Esta atividade deve ser realizada com o acompanhamento de um adulto
@@ -50,7 +50,7 @@ function HomePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
