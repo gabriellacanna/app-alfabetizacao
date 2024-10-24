@@ -222,7 +222,7 @@ function Game() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-md mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold text-purple-600">Aprendendo ABC</h1>
+          <h1 className="text-3xl font-bold text-purple-600">Alfabetizar com Amor</h1>  {/* Mudei o título aqui */}
           <button
             onClick={() => setShowRanking(true)}
             className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
@@ -230,91 +230,93 @@ function Game() {
             🏆 Ranking
           </button>
         </div>
-
+  
         <div className="bg-white rounded-xl shadow-lg p-8">
-        <div className="text-center mb-8">
-          <div className="text-sm text-gray-600">
-            Nível: {nivelAtual} | Pontos: {pontuacao}
-          </div>
-        </div>
-        </div>
-        {atividades.length === 0 ? (
-          <div className="text-center">
-            <h3 className="text-xl text-gray-800 mb-4">Parabéns!</h3>
-            <p className="text-gray-600 mb-4">
-              Você completou todas as atividades do nível {nivelAtual - 1}!
-            </p>
-            {nivelAtual > 1 && (
-              <button
-                onClick={() => {
-                  setNivelAtual((prev) => prev - 1);
-                  setAtividadeAtual(0);
-                }}
-                className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
-              >
-                Voltar ao nível anterior
-              </button>
-            )}
-            {nivelAtual < MAX_LEVEL && (
-              <button
-                onClick={() => {
-                  setNivelAtual((prev) => prev + 1);
-                  setAtividadeAtual(0);
-                  setShowLevelComplete(false);
-                }}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ml-2"
-              >
-                Próximo nível
-              </button>
-            )}
-          </div>
-        ) : (
-          <>
-            <div className="text-center mb-8">
-              {renderAtividade(atividades[atividadeAtual])}
-              {atividades[atividadeAtual]?.dica && (
-                <div className="text-sm text-gray-600">
-                  Dica: {atividades[atividadeAtual].dica}
-                </div>
-              )}
+          <h2 className="text-3xl font-bold text-purple-600 mb-4 text-center">Aprendendo ABC</h2>
+          <div className="text-center mb-8">
+            <div className="text-sm text-gray-600">
+              Nível: {nivelAtual} | Pontos: {pontuacao}
             </div>
-
-            <div className="space-y-4">
-              <input
-                type="text"
-                value={resposta}
-                onChange={(e) => setResposta(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Digite sua resposta"
-                className="w-full p-3 border rounded-lg text-center text-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
-                autoFocus
-              />
-              <button
-                onClick={verificarResposta}
-                className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition"
-              >
-                Verificar
-              </button>
-              {feedback && (
-                <div
-                  className={`text-center text-xl font-bold ${
-                    feedback.includes('bem') ? 'text-green-600' : 'text-orange-600'
-                  } animate-bounce`}
+          </div>
+  
+          {atividades.length === 0 ? (
+            <div className="text-center">
+              <h3 className="text-xl text-gray-800 mb-4">Parabéns!</h3>
+              <p className="text-gray-600 mb-4">
+                Você completou todas as atividades do nível {nivelAtual - 1}!
+              </p>
+              <div className="flex justify-center gap-2">
+                {nivelAtual > 1 && (
+                  <button
+                    onClick={() => {
+                      setNivelAtual((prev) => prev - 1);
+                      setAtividadeAtual(0);
+                    }}
+                    className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+                  >
+                    Voltar ao nível anterior
+                  </button>
+                )}
+                {nivelAtual < MAX_LEVEL && (
+                  <button
+                    onClick={() => {
+                      setNivelAtual((prev) => prev + 1);
+                      setAtividadeAtual(0);
+                      setShowLevelComplete(false);
+                    }}
+                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+                  >
+                    Próximo nível
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="text-center mb-8">
+                {renderAtividade(atividades[atividadeAtual])}
+                {atividades[atividadeAtual]?.dica && (
+                  <div className="text-gray-600">
+                    Dica: {atividades[atividadeAtual].dica}
+                  </div>
+                )}
+              </div>
+  
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={resposta}
+                  onChange={(e) => setResposta(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Digite sua resposta"
+                  className="w-full p-3 border rounded-lg text-center text-2xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  autoFocus
+                />
+                <button
+                  onClick={verificarResposta}
+                  className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition"
                 >
-                  {feedback}
-                </div>
-              )}
-            </div>
-
-            <div className="mt-8 text-center text-sm text-gray-600">
-              Atividade {atividadeAtual + 1} de {atividades.length}
-            </div>
-          </>
-        )}
+                  Verificar
+                </button>
+                {feedback && (
+                  <div
+                    className={`text-center text-xl font-bold ${
+                      feedback.includes('bem') ? 'text-green-600' : 'text-orange-600'
+                    } animate-bounce`}
+                  >
+                    {feedback}
+                  </div>
+                )}
+              </div>
+  
+              <div className="mt-8 text-center text-sm text-gray-600">
+                Atividade {atividadeAtual + 1} de {atividades.length}
+              </div>
+            </>
+          )}
+        </div>
       </div>
-
-
-
+  
       {showRanking && (
         <Ranking
           isOpen={showRanking}
