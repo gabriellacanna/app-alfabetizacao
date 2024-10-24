@@ -108,6 +108,7 @@ function Game() {
                 onClick={() => {
                   setNivelAtual(prev => prev + 1)
                   setAtividadeAtual(0) // Reseta a atividade atual para 0 ao avançar para o próximo nível
+                  setShowLevelComplete(false) // Garante que o nível completo não fique aberto
                 }}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition ml-2"
               >
@@ -170,13 +171,13 @@ function Game() {
           username={user.username}
           isLastLevel={nivelAtual === MAX_LEVEL}
           onContinue={() => {
+            setAtividadeAtual(0) // Reseta a atividade atual para 0 ao continuar
             if (nivelAtual === MAX_LEVEL) {
-              setNivelAtual(1)
+              setNivelAtual(1) // Volta ao nível 1 se for o último nível
             } else {
-              setNivelAtual(prev => prev + 1)
+              setNivelAtual(prev => prev + 1) // Avança para o próximo nível
             }
-            setAtividadeAtual(0) // Reseta a atividade atual para 0
-            setShowLevelComplete(false)
+            setShowLevelComplete(false) // Fecha o modal de nível completo
           }}
         />
       )}
@@ -185,4 +186,3 @@ function Game() {
 }
 
 export default Game
-
