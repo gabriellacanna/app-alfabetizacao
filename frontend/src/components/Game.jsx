@@ -89,10 +89,53 @@ function Game() {
         if (atividadeCorreta.conteudo.includes('___')) {
           const respostaLimpa = resposta.trim().toUpperCase();
           if (atividadeCorreta.conteudo === 'Eu vejo um ___.') {
-            const animaisValidos = ['GATO', 'CACHORRO', 'PASSARO', 'PÁSSARO', 'COELHO', 'PEIXE'];
+            const animaisValidos = [
+             // Mamíferos domésticos
+             'GATO', 'GATINHO', 'GATINHA', 'FELINO',
+             'CACHORRO', 'CÃO', 'CADELA', 'CACHORRINHO', 'CACHORRINHA', 'DOGUINHO', 'CANINO',
+             'COELHO', 'COELHINHO', 'COELHINHA', 'LEBRE',
+             'HAMSTER', 'PORQUINHO DA INDIA',
+          
+             // Mamíferos da fazenda
+             'BOI', 'VACA', 'BEZERRO', 'BEZERRA', 'TOURO', 'NOVILHO', 'NOVILHA',
+             'CAVALO', 'ÉGUA', 'POTRO', 'POTRA', 'PÔNEI',
+             'PORCO', 'PORCA', 'LEITÃO', 'LEITOA', 'PORQUINHO',
+             'OVELHA', 'CARNEIRO', 'CORDEIRO', 'CORDEIRA',
+             'CABRA', 'BODE', 'CABRITINHO', 'CABRITINHA',
+             'BURRO', 'MULA', 'JUMENTO',
+             
+             // Aves comuns
+             'PASSARO', 'PÁSSARO', 'PASSARINHO', 'PASSARINHA', 'AVE',
+             'GALINHA', 'GALO', 'FRANGO', 'FRANGA', 'PINTINHO',
+             'PATO', 'PATA', 'PATINHO', 'PATINHA',
+             'POMBO', 'POMBA', 'POMBINHO', 'POMBINHA',
+             'PERIQUITO', 'PAPAGAIO', 'CALOPSITA', 'ARARA',
+             'CANARIO', 'CANÁRIO', 'SABIÁ',
+             
+             // Peixes
+             'PEIXE', 'PEIXINHO', 'DOURADO', 'BETA', 'KINGUIO', 'GOLDFISH',
+             
+             // Répteis e Anfíbios
+             'TARTARUGA', 'JABUTI', 'CAGADO', 'CÁGADO',
+             'LAGARTO', 'LAGARTIXA', 'IGUANA',
+             'COBRA', 'SERPENTE',
+             'SAPO', 'RÃ', 'PERERECA',
+          
+             // Insetos
+             'BORBOLETA', 'FORMIGA', 'JOANINHA', 'GRILO', 'CIGARRA', 'ABELHA',
+             
+             // Animais selvagens comuns
+             'LEÃO', 'TIGRE', 'URSO', 'LOBO', 'RAPOSA', 'MACACO',
+             'GIRAFA', 'ELEFANTE', 'ZEBRA', 'HIPOPÓTAMO', 'RINOCERONTE',
+             'JACARÉ', 'CROCODILO', 'GORILA', 'CHIMPANZÉ',
+             
+             // Animais brasileiros
+             'TUCANO', 'ARARA', 'ONÇA', 'TAMANDUÁ', 'CAPIVARA', 'TATU', 
+             'QUATI', 'ANTA', 'BOTO', 'MICO', 'SAGUI', 'PREGUIÇA'
+           ];
             respostaCorreta = animaisValidos.includes(respostaLimpa);
           } else if (atividadeCorreta.conteudo === 'Hoje eu fui ao ___.') {
-            const lugaresValidos = ['PARQUE', 'SHOPPING', 'MERCADO', 'CINEMA', 'ZOOLOGICO', 'ZOOLÓGICO'];
+            const lugaresValidos = ['PARQUE', 'SHOPPING', 'MERCADO', 'CINEMA', 'ZOOLOGICO', 'ZOOLÓGICO', 'ESCOLA', 'PARQUINHO', 'QUADRA DE FUTEBOL', 'MEU QUARTO', 'QUARTO', 'BANHEIRO', 'COZINHA', 'CARRO'];
             respostaCorreta = lugaresValidos.includes(respostaLimpa);
           }
         }
