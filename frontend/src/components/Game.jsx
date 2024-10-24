@@ -100,6 +100,12 @@ function Game() {
              >
                Voltar ao nível anterior
              </button>
+	     <button
+  	       onClick={onContinue}
+               className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+              >
+             {isLastLevel ? 'Reiniciar Jogo' : 'Próxima Fase'}
+             </button>
            )}
          </div>
        ) : (
